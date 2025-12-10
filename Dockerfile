@@ -9,9 +9,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Install system dependencies and LibreOffice
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # LibreOffice for DOCX to PDF conversion
-    libreoffice \
+    # LibreOffice for DOCX to PDF conversion (headless only)
     libreoffice-writer-nogui \
+    libreoffice-core-nogui \
     # Poppler utilities for PDF processing
     poppler-utils \
     # Image processing dependencies
