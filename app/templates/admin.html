@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - {{app_name}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <meta http-equiv="refresh" content="5">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎛️ Admin Dashboard</h1>
+            <p class="tagline">{{app_name}} System Monitoring</p>
+        </header>
+
+        <main>
+            {% if error %}
+            <div class="alert alert-error">
+                <strong>Error:</strong> {{error}}
+            </div>
+            {% endif %}
+
+            <!-- System Stats -->
+            <section class="admin-section">
+                <h2>📊 System Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-content">
+                            <div class="stat-value">{{active_tasks}}</div>
+                            <div class="stat-label">Active Tasks</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <div class="stat-value">{{pending_tasks}}</div>
+                            <div class="stat-label">Pending Tasks</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">👷</div>
+                        <div class="stat-content">
+                            <div class="stat-value">{{worker_count}}</div>
+                            <div class="stat-label">Active Workers</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">💾</div>
+                        <div class="stat-content">
+                            <div class="stat-value">{{storage_stats.get('total_files', 0)}}</div>
+                            <div class="stat-label">Total Files</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Storage Stats -->
+            <section class="admin-section">
+                <h2>💾 Storage Usage</h2>
+                <div class="stats-grid">
+                    <div class="stat-card wide">
+                        <div class="stat-content">
+                            <div class="stat-label">Total Storage</div>
+                            <div class="stat-value">{{storage_stats.get('total_size_formatted', 'N/A')}}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-label">Input Files</div>
+                            <div class="stat-value">{{storage_stats.get('input_files', 0)}}</div>
+                            <div class="stat-detail">{{storage_stats.get('input_size_formatted', 'N/A')}}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-label">Output Files</div>
+                            <div class="stat-value">{{storage_stats.get('output_files', 0)}}</div>
+                            <div class="stat-detail">{{storage_stats.get('output_size_formatted', 'N/A')}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Worker Details -->
+            <section class="admin-section">
+                <h2>👷 Celery Workers</h2>
+                {% if worker_details %}
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Worker Name</th>
+                                <th>Pool Type</th>
+                                <th>Max Concurrency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for worker in worker_details %}
+                            <tr>
+                                <td>{{worker.name}}</td>
+                                <td>{{worker.pool}}</td>
+                                <td>{{worker.max_concurrency}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="no-data">No workers detected. Make sure Celery workers are running.</p>
+                {% endif %}
+            </section>
+
+            <!-- Registered Tasks -->
+            <section class="admin-section">
+                <h2>📝 Registered Tasks</h2>
+                {% if registered_tasks %}
+                <div class="task-list">
+                    {% for worker_name, tasks in registered_tasks.items() %}
+                    <div class="task-group">
+                        <h4>{{worker_name}}</h4>
+                        <ul>
+                            {% for task in tasks %}
+                            <li><code>{{task}}</code></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-data">No registered tasks found.</p>
+                {% endif %}
+            </section>
+
+            <!-- Actions -->
+            <section class="admin-section">
+                <h2>🔧 Quick Actions</h2>
+                <div class="actions">
+                    <a href="/health" class="btn btn-primary" target="_blank">View Health Check</a>
+                    <a href="/" class="btn btn-secondary">Back to Home</a>
+                    <a href="http://localhost:5555" class="btn btn-info" target="_blank">Flower Dashboard</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 {{app_name}}. All rights reserved. | Auto-refresh every 5 seconds</p>
+        </footer>
+    </div>
+</body>
+</html>

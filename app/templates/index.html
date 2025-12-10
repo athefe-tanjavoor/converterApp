@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{app_name}} - Professional File Conversion</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ {{app_name}}</h1>
+            <p class="tagline">Professional file conversion, powered by AI</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon">📁</div>
+                    <h2>Drag & Drop Files Here</h2>
+                    <p>Or click to browse</p>
+                    <p class="hint">
+                        Maximum: {{max_files}} files, {{max_file_size_mb|int}}MB each<br>
+                        Supported: JPG, PNG, WEBP, PDF, DOCX
+                    </p>
+                    <input type="file" id="file-input" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.docx" hidden>
+                </div>
+
+                <!-- File List -->
+                <div class="file-list" id="file-list" style="display: none;">
+                    <h3>Selected Files</h3>
+                    <div id="files-container"></div>
+                    <button class="btn btn-secondary" id="clear-files">Clear All</button>
+                </div>
+
+                <!-- Format Selector -->
+                <div class="format-section" id="format-section" style="display: none;">
+                    <label for="target-format">Convert to:</label>
+                    <select id="target-format" class="format-select">
+                        <option value="">-- Select Format --</option>
+                        {% for ext in allowed_extensions %}
+                        <option value="{{ext}}">{{ext|upper}}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-primary" id="convert-btn">🚀 Start Conversion</button>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section" id="progress-section" style="display: none;">
+                <div class="progress-card">
+                    <h3>⏳ Converting Your Files...</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="progress-status" id="progress-status">Uploading files...</p>
+                    <p class="task-id">Task ID: <code id="task-id-display"></code></p>
+                </div>
+            </section>
+
+            <!-- Result Section -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <div class="result-card success" id="success-card" style="display: none;">
+                    <div class="result-icon">✅</div>
+                    <h3>Conversion Complete!</h3>
+                    <p id="result-message"></p>
+                    <button class="btn btn-success btn-large" id="download-btn">
+                        ⬇️ Download Files
+                    </button>
+                    <button class="btn btn-secondary" id="convert-another">Convert Another</button>
+                </div>
+
+                <div class="result-card error" id="error-card" style="display: none;">
+                    <div class="result-icon">❌</div>
+                    <h3>Conversion Failed</h3>
+                    <p id="error-message"></p>
+                    <button class="btn btn-secondary" id="try-again">Try Again</button>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features">
+                <h2>Why Choose FileConverter Pro?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Lightning Fast</h3>
+                        <p>Background processing ensures quick conversions</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure</h3>
+                        <p>Files auto-delete after 60 minutes</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📦</div>
+                        <h3>Batch Processing</h3>
+                        <p>Convert multiple files at once</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h3>High Quality</h3>
+                        <p>Premium conversion engines</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 {{app_name}}. All rights reserved. | <a href="/admin">Admin</a></p>
+        </footer>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
