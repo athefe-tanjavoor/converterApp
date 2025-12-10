@@ -1,30 +1,30 @@
 /* FileConverter Pro - Modern Styling */
 
 :root {
-    /* Color Scheme */
-    --primary-color: #6366f1;
-    --primary-dark: #4f46e5;
+    /* Core Colors - Dark Mode (Default) */
+    --primary-color: #4f46e5;
+    --primary-dark: #4338ca;
     --secondary-color: #8b5cf6;
-    --success-color: #10b981;
-    --error-color: #ef4444;
-    --warning-color: #f59e0b;
-    --info-color: #3b82f6;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    --gradient-error: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    
-    /* Backgrounds */
     --bg-primary: #0f172a;
     --bg-secondary: #1e293b;
     --bg-card: #1e293b;
     --bg-hover: #334155;
     
-    /* Text Colors */
-    --text-primary: #f1f5f9;
+    --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
+    
+    --border-color: #334155;
+    
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    --info-color: #3b82f6;
+    
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --gradient-error: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -33,7 +33,7 @@
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
     
-    /* Border Radius */
+    /* Radius */
     --radius-sm: 0.5rem;
     --radius-md: 1rem;
     --radius-lg: 1.5rem;
@@ -42,7 +42,24 @@
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    
+    --border-color: #e2e8f0;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
 /* Reset & Base Styles */
@@ -60,9 +77,92 @@ body {
     min-height: 100vh;
 }
 
+/* Main Layout with Sidebar */
+.main-layout {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+}
+
+.content-area {
+    flex: 1;
+    min-width: 0; /* Prevents overflow */
+}
+
+.sidebar-ads {
+    width: 180px;
+    flex-shrink: 0;
+    display: none; /* Hidden on mobile */
+}
+
+@media (min-width: 1024px) {
+    .sidebar-ads {
+        display: block;
+    }
+}
+
+/* Ad Containers */
+.ad-container {
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed var(--bg-hover);
+}
+
+.ad-leaderboard {
+    width: 100%;
+    min-height: 90px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.ad-skyscraper {
+    min-height: 600px;
+    position: sticky;
+    top: var(--spacing-md);
+}
+
+.ad-rectangle {
+    min-height: 250px;
+    min-width: 300px;
+}
+
+.ad-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+.ad-feature .ad-placeholder {
+    min-height: 150px;
+}
+
+/* Result Grid (Card + Ad) */
+.result-grid {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.result-card {
+    flex: 1;
+    min-width: 300px;
+}
+
 /* Container */
 .container {
-    max-width: 1200px;
+    max-width: 1280px; /* Increased for sidebar */
     margin: 0 auto;
     padding: var(--spacing-md);
 }
@@ -70,7 +170,7 @@ body {
 /* Header */
 header {
     text-align: center;
-    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    padding: var(--spacing-lg) 0; /* Reduced padding */
 }
 
 header h1 {

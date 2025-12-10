@@ -29,8 +29,37 @@ let pollingInterval = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
     setupEventListeners();
 });
+
+// Theme Toggle Logic
+function setupThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconSpan = themeToggle.querySelector('.icon');
+    
+    // Check saved preference
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme, iconSpan);
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme, iconSpan);
+    });
+}
+
+function updateThemeIcon(theme, iconSpan) {
+    if (theme === 'light') {
+        iconSpan.textContent = '🌙'; // Moon for light mode
+    } else {
+        iconSpan.textContent = '☀️'; // Sun for dark mode
+    }
+}
 
 // Setup Event Listeners
 function setupEventListeners() {
